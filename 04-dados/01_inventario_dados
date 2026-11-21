@@ -1,0 +1,32 @@
+# Inventário de Dados — VetCare (Grupo 06)
+
+**Responsável:** Jonathan Velasquez
+
+| Objeto / Entidade | Dado / Atributo | Tipo Previsto | Obrigatoriedade | Observação de Domínio |
+| :--- | :--- | :--- | :--- | :--- |
+| **Tutor** | `id_tutor` | Numérico (INT) | Obrigatório (PK) | Identificador substituto interno. |
+| **Tutor** | `cpf` | Texto fixo (11) | Obrigatório (UNIQUE) | Identificador natural civil do tutor. |
+| **Tutor** | `nome` | Texto (100) | Obrigatório | Nome completo do responsável. |
+| **Tutor** | `telefone` | Texto (20) | Obrigatório (Multivalorado) | Permite múltiplos contatos (celular, residencial, emergência). |
+| **Animal** | `id_animal` | Numérico (INT) | Obrigatório (PK) | Identificador único do paciente. |
+| **Animal** | `nome` | Texto (60) | Obrigatório | Nome do animal atendido. |
+| **Animal** | `especie` | Texto (30) | Obrigatório | Espécie (ex.: Canina, Felina, Ave, Roedor). |
+| **Animal** | `raca` | Texto (50) | Opcional | Raça do animal (ou SRD). |
+| **Animal** | `data_nascimento` | Data (DATE) | Opcional | Base para o atributo derivado `idade`. |
+| **Veterinário** | `id_veterinario` | Numérico (INT) | Obrigatório (PK) | Identificador substituto interno. |
+| **Veterinário** | `crmv` | Texto (20) | Obrigatório (UNIQUE) | Registro profissional único no conselho veterinário. |
+| **Veterinário** | `nome` | Texto (100) | Obrigatório | Nome completo do médico veterinário. |
+| **Veterinário** | `especialidade` | Texto (60) | Opcional | Especialidade clínica (ex.: Clínica Geral, Cirurgia). |
+| **Consulta** | `id_consulta` | Numérico (INT) | Obrigatório (PK) | Identificador único do atendimento. |
+| **Consulta** | `data_consulta` | Data/Hora (DATETIME) | Obrigatório | Base para controle de acompanhamento de 30 dias (`RN-04`). |
+| **Consulta** | `diagnostico` | Texto longo | Obrigatório | Parecer clínico registrado pelo veterinário. |
+| **Prescrição Item** | `numero_item` | Numérico (INT) | Obrigatório (PK parcial) | Sequencial do item dentro da consulta (entidade fraca). |
+| **Prescrição Item** | `medicamento` | Texto (100) | Obrigatório | Nome do fármaco prescrito. |
+| **Prescrição Item** | `posologia` | Texto (150) | Obrigatório | Dosagem e frequência de administração. |
+| **Vacina** | `id_vacina` | Numérico (INT) | Obrigatório (PK) | Identificador do tipo de imunizante no catálogo. |
+| **Vacina** | `nome_vacina` | Texto (80) | Obrigatório | Ex.: Antirrábica, V10, Tríplice Felina. |
+| **Vacina** | `fabricante` | Texto (80) | Opcional | Laboratório fabricante da vacina. |
+| **Vacina** | `intervalo_reforco_dias` | Numérico (INT) | Opcional | Prazo padrão em dias para dose de reforço. |
+| **Aplicação Vacina** | `id_aplicacao` | Numérico (INT) | Obrigatório (PK) | Identificador único de cada dose aplicada (`RN-06`). |
+| **Aplicação Vacina** | `data_aplicacao` | Data (DATE) | Obrigatório | Data efetiva da imunização. |
+| **Aplicação Vacina** | `dose` | Texto (20) | Obrigatório | Ex.: `1a_dose`, `2a_dose`, `3a_dose`, `reforco`. |
