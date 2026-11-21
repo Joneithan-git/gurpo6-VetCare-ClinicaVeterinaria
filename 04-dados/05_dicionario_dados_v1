@@ -1,0 +1,70 @@
+# Dicionário de Dados — VetCare (Grupo 06)
+
+*Responsável:* Arthur Luiz Segalla
+
+## 1. Tabela tutor
+| Coluna | Tipo | Chave / Restrição | Descrição |
+| :--- | :--- | :--- | :--- |
+| id_tutor | INT | PK, NOT NULL | Identificador único do tutor. |
+| cpf | CHAR(11) | UNIQUE, NOT NULL | CPF do tutor responsável. |
+| nome | VARCHAR(100) | NOT NULL | Nome completo do tutor. |
+
+## 2. Tabela tutor_telefone (Atributo Multivalorado)
+| Coluna | Tipo | Chave / Restrição | Descrição |
+| :--- | :--- | :--- | :--- |
+| id_telefone | INT | PK, NOT NULL | Identificador do registro de telefone. |
+| id_tutor | INT | FK (tutor), NOT NULL | Tutor proprietário do contato. |
+| numero | VARCHAR(20) | NOT NULL | Número de telefone com DDD. |
+| tipo | VARCHAR(15) | NOT NULL, CHECK | Tipo (celular, residencial, emergencia). |
+
+## 3. Tabela animal
+| Coluna | Tipo | Chave / Restrição | Descrição |
+| :--- | :--- | :--- | :--- |
+| id_animal | INT | PK, NOT NULL | Identificador único do animal. |
+| id_tutor | INT | FK (tutor), NOT NULL | Tutor responsável (RN-01). |
+| nome | VARCHAR(60) | NOT NULL | Nome do animal. |
+| especie | VARCHAR(30) | NOT NULL | Espécie (Canina, Felina, etc.). |
+| raca | VARCHAR(50) | NULL | Raça do animal. |
+| data_nascimento | DATE | NULL | Data de nascimento para cálculo de idade. |
+
+## 4. Tabela veterinario
+| Coluna | Tipo | Chave / Restrição | Descrição |
+| :--- | :--- | :--- | :--- |
+| id_veterinario | INT | PK, NOT NULL | Identificador único do veterinário. |
+| crmv | VARCHAR(20) | UNIQUE, NOT NULL | Registro profissional no conselho. |
+| nome | VARCHAR(100) | NOT NULL | Nome completo do profissional. |
+| especialidade | VARCHAR(60) | NULL | Área de atuação clínica. |
+
+## 5. Tabela consulta
+| Coluna | Tipo | Chave / Restrição | Descrição |
+| :--- | :--- | :--- | :--- |
+| id_consulta | INT | PK, NOT NULL | Identificador único da consulta. |
+| id_animal | INT | FK (animal), NOT NULL | Animal atendido. |
+| id_veterinario | INT | FK (veterinario), NOT NULL | Veterinário responsável pelo atendimento. |
+| data_consulta | DATETIME | NOT NULL | Data e hora da consulta (RN-04). |
+| diagnostico | TEXT | NOT NULL | Diagnóstico clínico registrado. |
+
+## 6. Tabela prescricao_item (Entidade Fraca)
+| Coluna | Tipo | Chave / Restrição | Descrição |
+| :--- | :--- | :--- | :--- |
+| id_consulta | INT | PK, FK (consulta), NOT NULL | Consulta à qual o item pertence. |
+| numero_item | INT | PK, NOT NULL | Número sequencial do item na receita. |
+| medicamento | VARCHAR(100) | NOT NULL | Medicamento prescrito. |
+| posologia | VARCHAR(150) | NOT NULL | Instruções de uso e dosagem. |
+
+## 7. Tabela vacina
+| Coluna | Tipo | Chave / Restrição | Descrição |
+| :--- | :--- | :--- | :--- |
+| id_vacina | INT | PK, NOT NULL | Identificador da vacina no catálogo. |
+| nome_vacina | VARCHAR(80) | NOT NULL | Nome comercial ou técnico da vacina. |
+| fabricante | VARCHAR(80) | NULL | Laboratório produtor. |
+| intervalo_reforco_dias | INT | NULL | Intervalo recomendado para reforço. |
+
+## 8. Tabela aplicacao_vacina (Tabela Associativa N:N)
+| Coluna | Tipo | Chave / Restrição | Descrição |
+| :--- | :--- | :--- | :--- |
+| id_aplicacao | INT | PK, NOT NULL | Identificador único da aplicação (RN-06). |
+| id_animal | INT | FK (animal), NOT NULL | Animal vacinado. |
+| id_vacina | INT | FK (vacina), NOT NULL | Vacina aplicada. |
+| data_aplicacao | DATE | NOT NULL | Data em que a dose foi aplicada. |
+| dose | VARCHAR(20) | NOT NULL, CHECK | Identificação da dose (1a_dose, 2a_dose, 3a_dose, reforco). |
