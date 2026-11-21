@@ -1,0 +1,13 @@
+# Catálogo de Regras de Negócio — VetCare (Grupo 06)
+
+**Responsável:** Jonathan Velasquez
+
+| Código | Regra de Negócio Formalizada | Implementação no Modelo Conceitual e Lógico |
+| :--- | :--- | :--- |
+| **RN-01** | Um animal não existe no sistema sem um tutor cadastrado. | Participação total `(1,1)` de `Animal` em `Tutor` e chave estrangeira `animal.id_tutor NOT NULL`. |
+| **RN-02** | Cada animal pertence a um único tutor, mas um tutor pode ter vários animais. | Relacionamento `1:N` entre `Tutor` e `Animal`, com FK no lado `N` (`animal`). |
+| **RN-03** | Cada consulta registra obrigatoriamente data, veterinário responsável e diagnóstico. | Entidade `Consulta` ligada obrigatoriamente (`NOT NULL`) a `Animal` e `Veterinario`, com `data_consulta` e `diagnostico` obrigatórios. |
+| **RN-04** | Um animal sem nenhuma consulta nos últimos 30 dias é considerado sem acompanhamento. | Atributo derivado `status_acompanhamento`, calculado dinamicamente via `DATEDIFF(CURRENT_DATE, MAX(data_consulta)) > 30`. |
+| **RN-05** | Um animal recebe várias vacinas ao longo da vida, e uma vacina é aplicada em vários animais diferentes. | Relacionamento `N:N` entre `Animal` e `Vacina`, resolvido pela tabela associativa `aplicacao_vacina`. |
+| **RN-06** | Cada aplicação de vacina registra a data em que ocorreu, mesmo que o mesmo animal tome a mesma vacina mais de uma vez (reforço). | Adoção de chave primária substituta simples (`id_aplicacao`) na tabela associativa e atributo próprio `data_aplicacao` + `dose`. |
+| **RN-07** | Um tutor pode informar mais de um telefone de contato para emergências. | Atributo multivalorado `Tutor.telefone` no DER, isolado na tabela `tutor_telefone` no modelo lógico (1FN). |
