@@ -1,0 +1,16 @@
+# Decisões de Modelagem Conceitual — VetCare (Grupo 06)
+
+*Responsável:* Gustavo Wessling
+
+## 1. Entidades Fortes (5 entidades)
+Foram definidas 5 entidades fortes com existência independente no domínio da clínica: ⁠ Tutor ⁠, ⁠ Animal ⁠, ⁠ Veterinario ⁠, ⁠ Consulta ⁠ e ⁠ Vacina ⁠. ⁠ Veterinario ⁠ foi modelado como entidade própria (e não como texto dentro de ⁠ Consulta ⁠) para evitar repetição de dados e garantir unicidade do registro ⁠ CRMV ⁠.
+
+## 2. Entidade Dependente / Fraca (⁠ Prescricao_Item ⁠)
+⁠ Prescricao_Item ⁠ foi modelada como entidade fraca dependente de ⁠ Consulta ⁠ ⁠ (1,1) ⁠ porque cada item receitado (medicamento e posologia) só faz sentido vinculado ao atendimento que o gerou, utilizando identificação parcial via ⁠ numero_item ⁠ somado à chave de ⁠ Consulta ⁠.
+
+## 3. Relacionamento ⁠ N:N ⁠ com Atributos Próprios (⁠ Animal ⁠ × ⁠ Vacina ⁠)
+Como um animal recebe várias vacinas e uma vacina é aplicada em vários animais (⁠ RN-05 ⁠), o relacionamento ⁠ Recebe ⁠ possui cardinalidade ⁠ N:N ⁠ e carrega os atributos próprios ⁠ data_aplicacao ⁠ e ⁠ dose ⁠, permitindo registrar múltiplas aplicações e reforços ao longo da vida do animal (⁠ RN-06 ⁠).
+
+## 4. Atributo Multivalorado e Atributos Derivados
+•⁠  ⁠*Multivalorado (⁠ Tutor.telefone ⁠):* Permite que um mesmo tutor cadastre múltiplos telefones de contato sem limitar a estrutura a colunas fixas (⁠ telefone1 ⁠, ⁠ telefone2 ⁠).
+•⁠  ⁠*Derivados (⁠ Animal.idade ⁠ e ⁠ Animal.status_acompanhamento ⁠):* Não são armazenados como valores fixos editáveis para não ficarem desatualizados; são calculados a partir de ⁠ data_nascimento ⁠ e da última ⁠ data_consulta ⁠ (⁠ RN-04 ⁠).
